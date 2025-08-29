@@ -1,9 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, Flask
 import csv
-import os
 
-
-l = [i.split('.')[0] for i in os.listdir("./data")]
 tasks_bp = Blueprint('tasks', __name__)
 
 
