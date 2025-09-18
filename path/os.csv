@@ -1,6 +1,6 @@
 person,task,complete
-Suki,Deadlocks,
 Suki,Resource allocation and management,
+Suki,Deadlocks,
 Suki,Deadlock handling mechanisms: prevention; avoidance; detection; recovery. ,
 Suki,Concurrency 8 hours Inter-process communication; Synchronization,
 Suki,Implementing synchronization primitives (Peterson’s solution; Bakery algorithm; synchronization hardware),

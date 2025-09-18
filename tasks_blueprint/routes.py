@@ -1,8 +1,16 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 import csv
 import os
 
 tasks_bp = Blueprint('tasks', __name__)
+
+def get_themes():
+    themes = []
+    with open('themes.csv', newline='') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            themes.append(row)
+    return themes
 
 def get_csv_file_path(category):
     return os.path.join('path', f"{category}.csv")
@@ -32,11 +40,15 @@ def write_tasks(category, tasks):
 
 @tasks_bp.route("/<category>")
 def index(category):
+    selected_theme = request.cookies.get('theme', 'default')
+    themes = get_themes()
+    theme_data = next((theme for theme in themes if theme['theme_name'] == selected_theme), themes[0])
+
     tasks = read_tasks(category)
     if tasks is None:
         return "Category not found", 404
     persons = list(tasks.keys())
-    return render_template("index.html", tasks=tasks, persons=persons, blueprint_name=category)
+    return render_template("index.html", tasks=tasks, persons=persons, blueprint_name=category, theme=theme_data)
 
 @tasks_bp.route("/<category>/add", methods=["POST"])
 def add_task(category):
@@ -73,3 +85,22 @@ def delete_task(category, person, task_id):
         tasks[person].pop(task_id)
         write_tasks(category, tasks)
     return redirect(url_for('tasks.index', category=category))
+
+@tasks_bp.route('/<category>/reorder', methods=['POST'])
+def reorder_tasks(category):
+    data = request.get_json()
+    person = data['person']
+    new_order = [int(i) for i in data['newOrder']]
+
+    tasks = read_tasks(category)
+    if tasks is None:
+        return jsonify({'success': False, 'message': 'Category not found'}), 404
+
+    if person in tasks:
+        original_tasks = tasks[person]
+        reordered_tasks = [original_tasks[i] for i in new_order]
+        tasks[person] = reordered_tasks
+        write_tasks(category, tasks)
+        return jsonify({'success': True})
+    
+    return jsonify({'success': False, 'message': 'Person not found'}), 404

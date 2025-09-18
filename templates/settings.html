@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Available To-Do Lists</title>
+    <title>Settings</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -12,19 +12,15 @@
         <a href="{{ url_for('home') }}">Home</a>
         <a href="{{ url_for('settings') }}">Settings</a>
     </div>
-    <h1>Available To-Do Lists</h1>
-    <ul class="category-list">
-        {% for csv_file in csv_files %}
-        <li draggable="true" data-category="{{ csv_file.split('.')[0] }}">
-            <a href="{{ url_for('tasks.index', category=csv_file.split('.')[0]) }}">{{ csv_file.split('.')[0] }}</a> 
-            <a href="{{ url_for('remove_category', category=csv_file.split('.')[0]) }}" class="delete-link">❌</a>
-        </li>
-        {% endfor %}
-    </ul>
-    <form method="POST">
-        <input type="text" name="category" placeholder="Add category..." required>
-        <button type="submit">Add</button>
+    <h1>Settings</h1>
+    <h2>Select a Theme</h2>
+    <form method="POST" action="{{ url_for('settings') }}">
+        <select name="theme">
+            {% for theme in themes %}
+            <option value="{{ theme.theme_name }}" {% if theme.theme_name == selected_theme %}selected{% endif %}>{{ theme.theme_name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Save</button>
     </form>
-    <script src="{{ url_for('static', filename='category_drag.js') }}"></script>
 </body>
 </html>

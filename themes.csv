@@ -1,0 +1,13 @@
+theme_name,primary_color,secondary_color,background_color,text_color,accent_color
+default,#007bff,#6c757d,#f4f7f6,#333,#ffc107
+dark,#212529,#343a40,#121212,#f8f9fa,#fd7e14
+light,#f8f9fa,#e9ecef,#ffffff,#212529,#0dcaf0
+catpuccin,#7287fd,#209fb5,#1e1e2e,#cdd6f4,#f38ba8
+catppuccin-latte,#1e66f5,#e6e9ef,#eff1f5,#4c4f69,#ea76cb
+catppuccin-frappe,#8caaee,#303446,#292c3c,#c6d0f5,#f2d5cf
+catppuccin-macchiato,#8aadf4,#1e2030,#24273a,#cad3f5,#f5bde6
+catppuccin-mocha,#89b4fa,#181825,#1e1e2e,#cdd6f4,#f5c2e7
+rose-pine,#eb6f92,#26233a,#191724,#e0def4,#9ccfd8
+rose-pine-moon,#eb6f92,#2a273f,#232136,#e0def4,#9ccfd8
+rose-pine-dawn,#d7827e,#f2e9e1,#faf4ed,#575279,#56949f
+

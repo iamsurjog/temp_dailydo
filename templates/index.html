@@ -2,21 +2,25 @@
 <html>
 <head>
     <title>Task Competition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-<div class="nav">
-    <a href="{{ url_for('home') }}">Home</a>
-</div>
+<body style="--primary-color: {{ theme.primary_color }}; --secondary-color: {{ theme.secondary_color }}; --background-color: {{ theme.background_color }}; --text-color: {{ theme.text_color }}; --accent-color: {{ theme.accent_color }};">
+    <div class="nav">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('settings') }}">Settings</a>
+    </div>
 
 <h1>To-Do List: {{ blueprint_name }}</h1>
 <div class="container">
     {% for person in persons %}
     <div class="tasks">
         <h2>{{ person }}</h2>
-        <ul>
+        <ul class="task-list" data-person="{{ person }}">
             {% for task in tasks[person] %}
-            <li>
+            <li draggable="true" data-task-id="{{ loop.index0 }}">
                 <input type="checkbox" {{ task[1] }} onClick="window.location.replace('{{ url_for('tasks.complete_task', category=blueprint_name, person=person, task_id=loop.index0) }}')">
                 {{ task[0] }}
                 <a href="{{ url_for('tasks.delete_task', category=blueprint_name, person=person, task_id=loop.index0) }}" class="delete-link">❌</a>
@@ -41,5 +45,6 @@
     <button type="submit">Add</button>
 </form>
 
+<script src="{{ url_for('static', filename='drag.js') }}"></script>
 </body>
 </html>
