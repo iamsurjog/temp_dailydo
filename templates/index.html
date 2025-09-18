@@ -4,8 +4,8 @@
     <title>Task Competition</title>
     <style>
         body { font-family: Arial; margin: 20px; }
-        .container { display: flex; justify-content: space-around; }
-        .tasks { border: 1px solid #ccc; padding: 10px; width: 40%; }
+        .container { display: flex; justify-content: space-around; flex-wrap: wrap; }
+        .tasks { border: 1px solid #ccc; padding: 10px; width: 40%; margin-bottom: 20px; }
         h2 { text-align: center; }
         form { margin-top: 10px; }
         ul { list-style: none; padding: 0; }
@@ -15,53 +15,37 @@
 </head>
 <body>
 
-
-<h1>I ❤️ you Suki</h1>
+<h1>To-Do List: {{ blueprint_name }}</h1>
 <div class="container">
+    {% for person in persons %}
     <div class="tasks">
-        <h2>Suki</h2>
+        <h2>{{ person }}</h2>
         <ul>
-            {% for task in tasks_Suki %}
-        <li><input type="checkbox" {{task[1]}} onClick="window.location.replace('{{ url_for('tasks.complete_task', person='Suki', task_id=loop.index0) }}')"></input  >{{ task[0] }} 
-                <a href="{{ url_for('tasks.delete_task', person='Suki', task_id=loop.index0) }}">❌</a>
+            {% for task in tasks[person] %}
+            <li>
+                <input type="checkbox" {{ task[1] }} onClick="window.location.replace('{{ url_for(blueprint_name + '.complete_task', person=person, task_id=loop.index0) }}')">
+                {{ task[0] }}
+                <a href="{{ url_for(blueprint_name + '.delete_task', person=person, task_id=loop.index0) }}">❌</a>
             </li>
             {% endfor %}
         </ul>
-        <form method="POST">
-            <input type="hidden" name="person" value="Suki">
-            <input type="text" name="task" placeholder="Add task..." required>
-            <button type="submit">Add</button>
-        </form>
-        <!-- <form method="POST" action="/hellothere"> -->
-        <!--     <input type="text" name="wat" placeholder=""> -->
-        <!--     <button type="submit">Add</button> -->
-        <!-- </form> -->
-    </div>
-
-    <div class="tasks">
-        <h2>Suj</h2>
-        <ul>
-            {% for task in tasks_Suj %}
-        <li><input type="checkbox" {{task[1]}} onClick="window.location.replace('{{ url_for('tasks.complete_task', person='Suj', task_id=loop.index0) }}')"></input  >{{ task[0] }} 
-                <a href="{{ url_for('tasks.delete_task', person='Suj', task_id=loop.index0) }}">❌</a>
-            </li>
-            {% endfor %}
-        </ul>
-        <hr>
-        <h1>Tasks for tmrw library</h1>
-        <ul>
-            <li>NSSS abstracts</li>
-            <li>Capstone Projects</li>
-            <li>App idea thingy</li>
-        </ul>
-        <form method="POST">
-            <input type="hidden" name="person" value="Suj">
+        <form method="POST" action="{{ url_for(blueprint_name + '.add_task') }}">
+            <input type="hidden" name="person" value="{{ person }}">
             <input type="text" name="task" placeholder="Add task..." required>
             <button type="submit">Add</button>
         </form>
     </div>
+    {% endfor %}
 </div>
+
+<hr>
+
+<h2>Add New Person</h2>
+<form method="POST" action="{{ url_for(blueprint_name + '.add_task') }}">
+    <input type="text" name="person" placeholder="Person's Name" required>
+    <input type="text" name="task" placeholder="Add task..." required>
+    <button type="submit">Add</button>
+</form>
 
 </body>
 </html>
-
