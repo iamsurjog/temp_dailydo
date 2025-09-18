@@ -26,4 +26,4 @@ def create_app():
 if __name__ == "__main__":
     from flask import render_template
     app = create_app()
-    app.run(debug=True, host='0.0.0.0', port=10000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
