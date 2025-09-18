@@ -2,18 +2,12 @@
 <html>
 <head>
     <title>Task Competition</title>
-    <style>
-        body { font-family: Arial; margin: 20px; }
-        .container { display: flex; justify-content: space-around; flex-wrap: wrap; }
-        .tasks { border: 1px solid #ccc; padding: 10px; width: 40%; margin-bottom: 20px; }
-        h2 { text-align: center; }
-        form { margin-top: 10px; }
-        ul { list-style: none; padding: 0; }
-        li { margin-bottom: 5px; display: flex; justify-content: space-between; }
-        a { color: red; text-decoration: none; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+<div class="nav">
+    <a href="{{ url_for('home') }}">Home</a>
+</div>
 
 <h1>To-Do List: {{ blueprint_name }}</h1>
 <div class="container">
@@ -23,13 +17,13 @@
         <ul>
             {% for task in tasks[person] %}
             <li>
-                <input type="checkbox" {{ task[1] }} onClick="window.location.replace('{{ url_for(blueprint_name + '.complete_task', person=person, task_id=loop.index0) }}')">
+                <input type="checkbox" {{ task[1] }} onClick="window.location.replace('{{ url_for('tasks.complete_task', category=blueprint_name, person=person, task_id=loop.index0) }}')">
                 {{ task[0] }}
-                <a href="{{ url_for(blueprint_name + '.delete_task', person=person, task_id=loop.index0) }}">❌</a>
+                <a href="{{ url_for('tasks.delete_task', category=blueprint_name, person=person, task_id=loop.index0) }}" class="delete-link">❌</a>
             </li>
             {% endfor %}
         </ul>
-        <form method="POST" action="{{ url_for(blueprint_name + '.add_task') }}">
+        <form method="POST" action="{{ url_for('tasks.add_task', category=blueprint_name) }}">
             <input type="hidden" name="person" value="{{ person }}">
             <input type="text" name="task" placeholder="Add task..." required>
             <button type="submit">Add</button>
@@ -41,7 +35,7 @@
 <hr>
 
 <h2>Add New Person</h2>
-<form method="POST" action="{{ url_for(blueprint_name + '.add_task') }}">
+<form method="POST" action="{{ url_for('tasks.add_task', category=blueprint_name) }}">
     <input type="text" name="person" placeholder="Person's Name" required>
     <input type="text" name="task" placeholder="Add task..." required>
     <button type="submit">Add</button>

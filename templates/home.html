@@ -1,21 +1,25 @@
-
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Available To-Do Lists</title>
-    <style>
-        body { font-family: Arial; margin: 20px; }
-        ul { list-style: none; padding: 0; }
-        li { margin-bottom: 10px; }
-        a { text-decoration: none; color: #007bff; }
-    </style>
-</head>
-<body>
-    <h1>Available To-Do Lists</h1>
-    <ul>
-        {% for csv_file in csv_files %}
-            <li><a href="{{ url_for(csv_file.split('.')[0] + '.index') }}">{{ csv_file.split('.')[0] }}</a></li>
-        {% endfor %}
-    </ul>
-</body>
+    <head>
+        <title>Available To-Do Lists</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div class="nav">
+            <a href="{{ url_for('home') }}">Home</a>
+        </div>
+        <h1>Available To-Do Lists</h1>
+        <ul class="category-list">
+            {% for csv_file in csv_files %}
+            <li>
+                <a href="{{ url_for('tasks.index', category=csv_file.split('.')[0]) }}">{{ csv_file.split('.')[0] }}</a> 
+                <a href="{{ url_for('remove_category', category=csv_file.split('.')[0]) }}" class="delete-link">❌</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <form method="POST">
+            <input type="text" name="category" placeholder="Add category..." required>
+            <button type="submit">Add</button>
+        </form>
+    </body>
 </html>
