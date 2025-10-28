@@ -73,3 +73,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { offset: Number.NEGATIVE_INFINITY }).element;
     }
 });
+function showWarning(route) {
+  if (confirm('Are you sure you want to delete this item?')) {
+    alert('Item deleted!');
+    // Add further logic here, like submitting a form or making an API call
+
+  } else {
+    alert('Deletion cancelled.');
+  }
+}

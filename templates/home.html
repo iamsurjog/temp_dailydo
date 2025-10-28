@@ -17,7 +17,7 @@
         {% for csv_file in csv_files %}
         <li draggable="true" data-category="{{ csv_file.split('.')[0] }}">
             <a href="{{ url_for('tasks.index', category=csv_file.split('.')[0]) }}">{{ csv_file.split('.')[0] }}</a> 
-            <a href="{{ url_for('remove_category', category=csv_file.split('.')[0]) }}" class="delete-link">❌</a>
+            <a href="{{ url_for('remove_category', category=csv_file.split('.')[0]) }}" class="delete-link" onclick="showWarning()">❌</a>
         </li>
         {% endfor %}
     </ul>
