@@ -3,7 +3,7 @@ from tasks_blueprint.routes import tasks_bp
 import os
 import csv
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 path_dir = 'path'
 if not os.path.exists(path_dir):
