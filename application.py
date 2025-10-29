@@ -35,9 +35,9 @@ def set_category_order(order):
         for category in order:
             f.write(f'{category}\n')
 
-app.register_blueprint(tasks_bp, url_prefix='/tasks')
+application.register_blueprint(tasks_bp, url_prefix='/tasks')
 
-@app.route('/', methods=["GET", "POST"])
+@application.route('/', methods=["GET", "POST"])
 def home():
     selected_theme = request.cookies.get('theme', 'default')
     themes = get_themes()
@@ -58,7 +58,7 @@ def home():
     csv_files = [f'{c}.csv' for c in ordered_categories]
     return render_template('home.html', csv_files=csv_files, theme=theme_data)
 
-@app.route('/remove_category/<category>')
+@application.route('/remove_category/<category>')
 def remove_category(category):
     os.remove(os.path.join(path_dir, f'{category}.csv'))
     order = get_category_order()
@@ -67,14 +67,14 @@ def remove_category(category):
         set_category_order(order)
     return redirect(url_for('home'))
 
-@app.route('/reorder_categories', methods=['POST'])
+@application.route('/reorder_categories', methods=['POST'])
 def reorder_categories():
     data = request.get_json()
     new_order = data['newOrder']
     set_category_order(new_order)
     return jsonify({'success': True})
 
-@app.route('/settings', methods=["GET", "POST"])
+@application.route('/settings', methods=["GET", "POST"])
 def settings():
     themes = get_themes()
     selected_theme = request.cookies.get('theme', 'default')
