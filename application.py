@@ -39,25 +39,24 @@ application.register_blueprint(tasks_bp, url_prefix='/tasks')
 
 @application.route('/', methods=["GET", "POST"])
 def home():
-    return "Hello from DailyDo!"
-    # selected_theme = request.cookies.get('theme', 'default')
-    # themes = get_themes()
-    # theme_data = next((theme for theme in themes if theme['theme_name'] == selected_theme), themes[0])
+    selected_theme = request.cookies.get('theme', 'default')
+    themes = get_themes()
+    theme_data = next((theme for theme in themes if theme['theme_name'] == selected_theme), themes[0])
 
-    # if request.method == "POST":
-    #     category = request.form.get("category")
-    #     f = open("./path/" + category + ".csv", 'w')
-    #     writer = csv.writer(f)
-    #     writer.writerow(['person', 'task', 'complete'])
-    #     f.close()
-    #     order = get_category_order()
-    #     order.append(category)
-    #     set_category_order(order)
-    #     return redirect(url_for('tasks.index', category=category))
+    if request.method == "POST":
+        category = request.form.get("category")
+        f = open("./path/" + category + ".csv", 'w')
+        writer = csv.writer(f)
+        writer.writerow(['person', 'task', 'complete'])
+        f.close()
+        order = get_category_order()
+        order.append(category)
+        set_category_order(order)
+        return redirect(url_for('tasks.index', category=category))
         
-    # ordered_categories = get_category_order()
-    # csv_files = [f'{c}.csv' for c in ordered_categories]
-    # return render_template('home.html', csv_files=csv_files, theme=theme_data)
+    ordered_categories = get_category_order()
+    csv_files = [f'{c}.csv' for c in ordered_categories]
+    return render_template('home.html', csv_files=csv_files, theme=theme_data)
 
 @application.route('/remove_category/<category>')
 def remove_category(category):
