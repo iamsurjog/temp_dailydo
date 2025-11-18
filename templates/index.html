@@ -21,7 +21,7 @@
         <ul class="task-list" data-person="{{ person }}">
             {% for task in tasks[person] %}
             <li draggable="true" data-task-id="{{ loop.index0 }}">
-                <input type="checkbox" {{ task[1] }} onClick="window.location.replace('{{ url_for('tasks.complete_task', category=blueprint_name, person=person, task_id=loop.index0) }}')">
+                <input type="checkbox" {{ task[1] }} onClick="update('{{ url_for('tasks.complete_task', category=blueprint_name, person=person, task_id=loop.index0) }}')">
                 {{ task[0] }}
                 <a href="{{ url_for('tasks.delete_task', category=blueprint_name, person=person, task_id=loop.index0) }}" class="delete-link">❌</a>
             </li>
@@ -46,5 +46,10 @@
 </form>
 
 <script src="{{ url_for('static', filename='drag.js') }}"></script>
+<script>
+    async function update(path) {
+	    const response = await fetch(path);
+    }
+</script>
 </body>
 </html>
